@@ -1,4 +1,5 @@
 package com.example.FavoriteSports.controller;
+
 import com.example.FavoriteSports.dto.FavoriteSport;
 import com.example.FavoriteSports.entity.PlayerDetails;
 import com.example.FavoriteSports.service.PlayerService;
@@ -14,6 +15,7 @@ import java.util.List;
 public class PlayerController {
     @Autowired
     PlayerService playerService;
+
     @GetMapping("/player")
     public List<PlayerDetails> getPlayers() {
         return playerService.getAllPlayers();
@@ -23,6 +25,7 @@ public class PlayerController {
     public PlayerDetails getPlayer(@PathVariable String favorite_sport) {
         return playerService.getPlayerByFavouriteSport(favorite_sport);
     }
+
     @GetMapping("/sports")
     public List<FavoriteSport> getsportssss() throws IOException {
 
@@ -31,9 +34,13 @@ public class PlayerController {
 
     @GetMapping("/hii")
     public List<PlayerDetails> hello() throws IOException {
-        return playerService.getPlayersWithFavoriteSports();
+        List<PlayerDetails> fav = playerService.getPlayersWithFavoriteSports();
+        if (fav.isEmpty()) {
+            return null;
+        } else {
+            return fav;
+        }
+
     }
-
-
 }
 

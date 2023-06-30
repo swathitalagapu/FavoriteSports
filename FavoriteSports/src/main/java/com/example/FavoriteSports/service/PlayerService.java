@@ -1,16 +1,20 @@
 package com.example.FavoriteSports.service;
 
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.FavoriteSports.dto.FavoriteSport;
 import com.example.FavoriteSports.entity.PlayerDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +25,9 @@ import java.util.stream.Collectors;
 public class PlayerService {
     private static List<PlayerDetails> players;
     private static List<FavoriteSport> favoriteSport;
-
+//        public   static List<String>  favorite_sports;
+    @Autowired
+    FavoriteSportsImpl favorite_sports;
 
     public PlayerService() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -45,49 +51,26 @@ public class PlayerService {
 
     public List<FavoriteSport> getSports() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        favoriteSport =  Arrays.asList(mapper.readValue(new File("FavoriteSports/src/main/resources/json/sport.json"), FavoriteSport.class));
-        return  favoriteSport;
+        favoriteSport = Arrays.asList(mapper.readValue(new File("FavoriteSports/src/main/resources/json/sport.json"), FavoriteSport.class));
+        return favoriteSport;
 
     }
 
-//    public List<PlayerDetails> getPlayerPresentInSports() throws IOException {
-////        ObjectMapper mapper =new ObjectMapper();
-////        List<FavoriteSport> favorite
-////        favorite = Arrays.asList(mapper.readValue(new File("FavoriteSports/src/main/resources/json/sport.json"), FavoriteSport.class));
-//        List<PlayerDetails> play = new ArrayList<>();
-//        for (PlayerDetails pd : players) {
-//            if (favoriteSport.contains(pd.getFavorite_sport())) {
-//                play.add(pd);
-//            }
-//        }
-//        return play;
-//
-//
-//    }
-
-//    public List<PlayerDetails> getPlayersWithFavoriteSports() throws IOException{
-//        ObjectMapper mapper= new ObjectMapper();
-//         favoriteSport = Arrays.asList(mapper.readValue(new File("FavoriteSports/src/main/resources/json/sport.json"), FavoriteSport.class));
-//
-//
-//        List<PlayerDetails> playersWithFavoriteSports = new ArrayList<>();
-//
-//        for (PlayerDetails player : players) {
-//            if (favoriteSport.contains(player.getFavorite_sport())) {
-//                playersWithFavoriteSports.add(player);
-//            }
-//        }
-//
-//        return playersWithFavoriteSports;
-//    }
 
     public List<PlayerDetails> getPlayersWithFavoriteSports() throws IOException {
-        List<String> favoriteSportsList =new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper1 = new ObjectMapper();
+        List<PlayerDetails> players = new ArrayList<>();
+        PlayerDetails[] allPlayers = Arrays.asList(mapper.readValue(new File("FavoriteSports/src/main/resources/json/player.json"), PlayerDetails[].class)).toArray(new PlayerDetails[0]);
+        List<String> favoriteSports = Arrays.asList("Soccer", "Tennis", "Basketball", "Swimming", "Baseball", "Volleyball");
+        for (PlayerDetails player : allPlayers) {
+            if (favoriteSports .contains(player.getFavorite_sport())) {
+                players.add(player);
+            }
+        }
 
-        return players.stream()
-                .filter(player -> favoriteSportsList.contains(player.getFavorite_sport()))
-                .collect(Collectors.toList());
+        return players;
     }
 }
 
-//favoriteSport.getFavorite_sports();
+

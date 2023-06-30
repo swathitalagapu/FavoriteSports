@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class FavoriteSport {
-    private  List<String> favorite_sports;
+    private List<String> favorite_sports;
 
 
 }
