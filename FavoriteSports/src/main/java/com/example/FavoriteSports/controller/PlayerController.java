@@ -27,13 +27,13 @@ public class PlayerController {
     }
 
     @GetMapping("/sports")
-    public List<FavoriteSport> getsportssss() throws IOException {
+    public List<FavoriteSport>getSport() throws IOException {
 
         return playerService.getSports();
     }
 
-    @GetMapping("/hii")
-    public List<PlayerDetails> hello() throws IOException {
+    @GetMapping("/getFavSportPlayers")
+    public List<PlayerDetails> getPlayersWithSports() throws IOException {
         List<PlayerDetails> fav = playerService.getPlayersWithFavoriteSports();
         if (fav.isEmpty()) {
             return null;

@@ -25,9 +25,7 @@ import java.util.stream.Collectors;
 public class PlayerService {
     private static List<PlayerDetails> players;
     private static List<FavoriteSport> favoriteSport;
-//        public   static List<String>  favorite_sports;
-    @Autowired
-    FavoriteSportsImpl favorite_sports;
+
 
     public PlayerService() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -59,10 +57,10 @@ public class PlayerService {
 
     public List<PlayerDetails> getPlayersWithFavoriteSports() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        ObjectMapper mapper1 = new ObjectMapper();
         List<PlayerDetails> players = new ArrayList<>();
         PlayerDetails[] allPlayers = Arrays.asList(mapper.readValue(new File("FavoriteSports/src/main/resources/json/player.json"), PlayerDetails[].class)).toArray(new PlayerDetails[0]);
-        List<String> favoriteSports = Arrays.asList("Soccer", "Tennis", "Basketball", "Swimming", "Baseball", "Volleyball");
+        List<String> favoriteSports = FavoriteSportsImpl.getFavorite_sports().getFavorite_sports();
+        System.out.println(favoriteSports);
         for (PlayerDetails player : allPlayers) {
             if (favoriteSports .contains(player.getFavorite_sport())) {
                 players.add(player);

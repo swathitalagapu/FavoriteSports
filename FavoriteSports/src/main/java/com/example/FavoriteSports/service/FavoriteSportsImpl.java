@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 public class FavoriteSportsImpl {
 
-    public List<String> getFavorite_sports() throws IOException {
+    public static FavoriteSport getFavorite_sports() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-         List<String> favorite_sports = Arrays.asList(String.valueOf(mapper.readValue(new File("FavoriteSports/src/main/resources/json/sport.json"), FavoriteSport.class)));
-        return favorite_sports;
+          FavoriteSport favoriteSport = mapper.readValue(new File("FavoriteSports/src/main/resources/json/sport.json"), FavoriteSport.class);
+        return  favoriteSport;
     }
 }
 
